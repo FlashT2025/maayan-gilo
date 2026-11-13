@@ -521,6 +521,41 @@
       .row-2 { grid-template-columns: 1fr; }
       .price-row { flex-direction: column; align-items: flex-start; }
     }
+
+    /* ---- v2 : horaires, créneaux pris, champs dynamiques ---- */
+    .avail-note { background: var(--secondary-soft); color: var(--secondary); border-radius: 12px; padding: 10px 12px; font-size: 0.88rem; font-weight: 600; margin-bottom: 12px; }
+    .cal-day { position: relative; }
+    .cal-day.early::after { content: ""; position: absolute; bottom: 4px; left: 50%; width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%; background: var(--secondary); }
+    .cal-day.selected.early::after { background: #fff; }
+    .cal-day.taken { background: #FFF1D6; color: #B58A2A; font-weight: 500; }
+    .cal-day.partial { box-shadow: inset 0 -3px 0 #F4C95D; }
+    .cal-day.ask:not(.selected) { color: #9AA3AB; }
+    .cal-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 10px; font-size: 0.78rem; color: var(--muted); }
+    .cal-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-inline-end: 5px; vertical-align: middle; }
+    .cal-legend .lg-early { background: var(--secondary); border-radius: 50%; width: 7px; height: 7px; }
+    .cal-legend .lg-taken { background: #FFF1D6; border: 1px solid #F4C95D; }
+    .cal-msg { margin-top: 8px; font-size: 0.86rem; font-weight: 600; color: #8A6412; background: #FFF6E0; border-radius: 10px; padding: 8px 10px; display: none; }
+    .cal-msg.show { display: block; }
+    .sub-block { display: none; background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 12px; margin-bottom: 14px; }
+    .sub-block.show { display: block; }
+    .sub-block .sub-title { font-weight: 800; font-size: 0.95rem; margin-bottom: 10px; }
+    .sub-block .form-group:last-child { margin-bottom: 0; }
+    .radio-line, .check-line { display: flex; align-items: flex-start; gap: 8px; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; cursor: pointer; }
+    .radio-line input, .check-line input { margin-top: 4px; width: 18px; height: 18px; flex-shrink: 0; accent-color: var(--primary); }
+    .radio-line small, .check-line small { display: block; font-weight: 400; color: var(--muted); }
+    .soft-note { font-size: 0.85rem; color: var(--secondary); background: var(--secondary-soft); border-radius: 10px; padding: 8px 10px; }
+    .warn-note { display: none; font-size: 0.85rem; color: #8A6412; background: #FFF6E0; border-radius: 10px; padding: 8px 10px; margin-top: 8px; }
+    .warn-note.show { display: block; }
+    .extras { display: none; margin-top: 8px; }
+    .extras.show { display: block; }
+    textarea { width: 100%; padding: 11px 12px; border-radius: 12px; border: 1.5px solid var(--border); font-family: inherit; font-size: 16px; background: #fff; color: var(--text); resize: vertical; min-height: 64px; }
+    textarea:focus { outline: none; border-color: var(--primary); }
+    .invalid { border-color: #D9534F !important; background: #FFF7F6 !important; }
+    .form-error { display: none; background: #FFF1EF; border: 1px solid #F1B8B2; color: #A23A32; font-size: 0.88rem; font-weight: 600; padding: 9px 12px; border-radius: 12px; margin-bottom: 12px; }
+    .form-error.show { display: block; }
+    .req { color: var(--primary-dark); }
+    .price-row.highlight { background: #FFF8F4; border-color: #E8C5B8; }
+    .price-row.highlight .price-tag { background: var(--accent-warm); color: var(--primary-dark); }
   </style>
 </head>
 <body>
@@ -577,121 +612,170 @@
       </div>
     </section>
 
-    <!-- Grille tarifaire (Claude Code : affiner les montants suite au Seker Shouk Gilo/Jérusalem) -->
     <section class="section-card" id="pricing-section">
-      <h2 class="section-title" data-i18n="priceTitle">💰 תעריפים נוחים (לפי שעה)</h2>
+      <h2 class="section-title" data-i18n="priceTitle"></h2>
       <div class="pricing-grid">
         <div class="price-row">
-          <div class="price-info">
-            <h3 data-i18n="p1Title">🧸 בייביסיטר ושמרטפות</h3>
-            <span data-i18n="p1Desc">שמירה בבית אחה״צ או בערב</span>
-          </div>
-          <div class="price-tag" data-i18n="p1Rate">⁦30–35⁩ ₪ / שעה</div>
+          <div class="price-info"><h3 data-i18n="p1Title"></h3><span data-i18n="p1Desc"></span></div>
+          <div class="price-tag" data-i18n="p1Rate"></div>
         </div>
         <div class="price-row">
-          <div class="price-info">
-            <h3 data-i18n="p2Title">🏫 הוצאה מהגן / מהמעון</h3>
-            <span data-i18n="p2Desc">איסוף, ליווי הביתה ושהייה עם הילד/ה</span>
-          </div>
-          <div class="price-tag" data-i18n="p2Rate">35 ₪ / שעה</div>
+          <div class="price-info"><h3 data-i18n="p2Title"></h3><span data-i18n="p2Desc"></span></div>
+          <div class="price-tag" data-i18n="p2Rate"></div>
         </div>
         <div class="price-row">
-          <div class="price-info">
-            <h3 data-i18n="p3Title">📚 עזרה בשיעורי בית לקטנים</h3>
-            <span data-i18n="p3Desc">ליווי לימודי נעים וסבלני</span>
-          </div>
-          <div class="price-tag" data-i18n="p3Rate">⁦35–40⁩ ₪ / שעה</div>
+          <div class="price-info"><h3 data-i18n="p4Title"></h3><span data-i18n="p4Desc"></span></div>
+          <div class="price-tag" data-i18n="p4Rate"></div>
+        </div>
+        <div class="price-row">
+          <div class="price-info"><h3 data-i18n="p3Title"></h3><span data-i18n="p3Desc"></span></div>
+          <div class="price-tag" data-i18n="p3Rate"></div>
+        </div>
+        <div class="price-row highlight">
+          <div class="price-info"><h3 data-i18n="p5Title"></h3><span data-i18n="p5Desc"></span></div>
+          <div class="price-tag" data-i18n="p5Rate"></div>
         </div>
       </div>
-      <div class="pricing-note" data-i18n="pricingNote">
-        💡 התעריפים משוערים וגמישים — לשמירה קבועה אפשר לתאם מחיר מוזל או חבילה שבועית. הכול בתיאום נעים מראש.
-      </div>
+      <div class="pricing-note" data-i18n="pricingNote"></div>
     </section>
 
-    <section class="section-card">
-      <h2 class="section-title" data-i18n="bookTitle">📅 בחירת תאריך ותיאום מועד</h2>
+    <section class="section-card" id="booking-section">
+      <h2 class="section-title" data-i18n="bookTitle"></h2>
+
+      <div class="avail-note" data-i18n="availNote"></div>
 
       <div class="form-group">
-        <label class="field-label" data-i18n="lblCalPick">לחצו על תאריך (או מספר תאריכים) בלוח השנה:</label>
+        <label class="field-label" data-i18n="lblCalPick"></label>
         <div class="calendar-box">
           <div class="cal-header">
-            <button type="button" class="cal-nav" onclick="changeMonth(-1)">‹</button>
+            <button type="button" class="cal-nav" onclick="changeMonth(-1)" aria-label="prev">‹</button>
             <div class="cal-month-title" id="calMonthTitle"></div>
-            <button type="button" class="cal-nav" onclick="changeMonth(1)">›</button>
+            <button type="button" class="cal-nav" onclick="changeMonth(1)" aria-label="next">›</button>
           </div>
           <div class="cal-weekdays" id="calWeekdays"></div>
           <div class="cal-days" id="calDays"></div>
+          <div class="cal-legend">
+            <span><i class="lg-early"></i><span data-i18n="lgEarly"></span></span>
+            <span><i class="lg-taken"></i><span data-i18n="lgTaken"></span></span>
+          </div>
+          <div class="cal-msg" id="calMsg"></div>
           <div class="selected-summary" id="selectedSummary"></div>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="field-label" data-i18n="lblService">איזה שירות דרוש לכם?</label>
-        <div class="service-pills">
-          <label class="pill-check">
-            <input type="checkbox" name="service" value="gan" checked />
-            <span data-i18n="optGan">🏫 הוצאה מהגן/מעון</span>
-          </label>
-          <label class="pill-check">
-            <input type="checkbox" name="service" value="baby" />
-            <span data-i18n="optBaby">🧸 בייביסיטר</span>
-          </label>
-          <label class="pill-check">
-            <input type="checkbox" name="service" value="hw" />
-            <span data-i18n="optHw">📚 שיעורי בית</span>
-          </label>
         </div>
       </div>
 
       <div class="row-2 form-group">
         <div>
-          <label class="field-label" for="slotTime" data-i18n="lblTime">טווח שעות</label>
-          <select id="slotTime" onchange="toggleCustomTime()">
-            <option value="13:30-16:30" data-i18n="t1">13:30 – 16:30 (הוצאה מהגן)</option>
-            <option value="16:00-19:00" data-i18n="t2">16:00 – 19:00 (אחה״צ)</option>
-            <option value="19:30-23:00" data-i18n="t3">19:30 – 23:00 (ערב)</option>
-            <option value="custom" data-i18n="t4">שעות אחרות / נתאם יחד</option>
-          </select>
+          <label class="field-label" for="slotTime" data-i18n="lblTime"></label>
+          <select id="slotTime" onchange="toggleCustomTime()"></select>
         </div>
         <div>
-          <label class="field-label" for="freq" data-i18n="lblFreq">תדירות</label>
-          <select id="freq">
-            <option value="once" data-i18n="fOnce">חד פעמי</option>
-            <option value="weekly" data-i18n="fReg">קבוע / שבועי</option>
+          <label class="field-label" for="freq" data-i18n="lblFreq"></label>
+          <select id="freq" onchange="refreshDynamic()">
+            <option value="once" data-i18n="fOnce"></option>
+            <option value="weekly" data-i18n="fReg"></option>
+            <option value="multi" data-i18n="fMulti"></option>
           </select>
         </div>
       </div>
 
       <div class="row-2 form-group custom-time" id="customTime">
         <div>
-          <label class="field-label" for="timeFrom" data-i18n="lblFrom">משעה</label>
+          <label class="field-label" for="timeFrom" data-i18n="lblFrom"></label>
           <input type="time" id="timeFrom" />
         </div>
         <div>
-          <label class="field-label" for="timeTo" data-i18n="lblTo">עד שעה</label>
+          <label class="field-label" for="timeTo" data-i18n="lblTo"></label>
           <input type="time" id="timeTo" />
         </div>
       </div>
+      <div class="warn-note form-group" id="subNote" data-i18n="subNote"></div>
 
       <div class="form-group">
-        <label class="field-label" for="details" data-i18n="lblDetails">גיל הילדים / שם הגן או המעון בגילה</label>
-        <input type="text" id="details" placeholder="לדוגמה: בן 3, גן שקד" />
+        <label class="field-label" data-i18n="lblService"></label>
+        <div class="service-pills">
+          <label class="pill-check"><input type="checkbox" name="service" value="gan" onchange="refreshDynamic()" /><span data-i18n="optGan"></span></label>
+          <label class="pill-check"><input type="checkbox" name="service" value="baby" onchange="refreshDynamic()" /><span data-i18n="optBaby"></span></label>
+          <label class="pill-check"><input type="checkbox" name="service" value="hw" onchange="refreshDynamic()" /><span data-i18n="optHw"></span></label>
+        </div>
       </div>
 
-      <div class="confirm-badge" data-i18n="confirmNote">
-        ⏳ זו בקשה בלבד: הלחיצה פותחת הודעת וואטסאפ מוכנה למעיין — המועד סגור רק אחרי שמעיין מאשרת.
+      <!-- Sortie de gan / maon -->
+      <div class="sub-block" id="blockGan">
+        <div class="sub-title" data-i18n="ganBlockTitle"></div>
+        <label class="radio-line"><input type="radio" name="ganMode" value="stay" checked /><span><span data-i18n="ganStay"></span><small data-i18n="ganStaySub"></small></span></label>
+        <label class="radio-line"><input type="radio" name="ganMode" value="mission" /><span><span data-i18n="ganMission"></span><small data-i18n="ganMissionSub"></small></span></label>
+        <div class="form-group">
+          <label class="field-label" for="ganName"><span data-i18n="lblGanName"></span> <span class="req">*</span></label>
+          <input type="text" id="ganName" data-i18n-ph="phGanName" />
+        </div>
+        <div class="form-group">
+          <label class="field-label" for="ganAddr"><span data-i18n="lblGanAddr"></span> <span class="req">*</span></label>
+          <input type="text" id="ganAddr" data-i18n-ph="phGanAddr" />
+        </div>
       </div>
 
-      <button class="btn-whatsapp" onclick="sendWhatsApp()" data-i18n="btnWa">
-        💬 שליחת בקשת תיאום למעיין בוואטסאפ
-      </button>
+      <!-- Babysitting -->
+      <div class="sub-block" id="blockBaby">
+        <div class="sub-title" data-i18n="babyBlockTitle"></div>
+        <div class="soft-note" data-i18n="babyFocus"></div>
+        <label class="check-line" style="margin-top:10px"><input type="checkbox" id="parentHome" onchange="refreshDynamic()" /><span><span data-i18n="parentHome"></span><small data-i18n="parentHomeSub"></small></span></label>
+        <div class="extras" id="babyExtras">
+          <label class="check-line"><input type="checkbox" name="extra" value="meal" /><span data-i18n="exMeal"></span></label>
+          <label class="check-line"><input type="checkbox" name="extra" value="tidy" /><span data-i18n="exTidy"></span></label>
+        </div>
+      </div>
 
-      <button class="btn-calendar" onclick="downloadICS()" data-i18n="btnCal">
-        📆 שמירת תזכורת ביומן שלי (.ics)
-      </button>
+      <!-- Aide aux devoirs -->
+      <div class="sub-block" id="blockHw">
+        <div class="sub-title" data-i18n="hwBlockTitle"></div>
+        <div class="form-group">
+          <label class="field-label" for="hwInfo" data-i18n="lblHw"></label>
+          <input type="text" id="hwInfo" data-i18n-ph="phHw" />
+        </div>
+      </div>
+
+      <div class="row-2 form-group">
+        <div>
+          <label class="field-label" for="kidsCount"><span data-i18n="lblKids"></span> <span class="req">*</span></label>
+          <select id="kidsCount" onchange="refreshDynamic()">
+            <option value="">—</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4+">4+</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label" for="kidsAges"><span data-i18n="lblAges"></span> <span class="req">*</span></label>
+          <input type="text" id="kidsAges" data-i18n-ph="phAges" />
+        </div>
+      </div>
+      <div class="warn-note form-group" id="kidsNote" data-i18n="kidsNote"></div>
+
+      <div class="form-group">
+        <label class="field-label" for="homeStreet"><span data-i18n="lblStreet"></span> <span class="req">*</span></label>
+        <input type="text" id="homeStreet" data-i18n-ph="phStreet" />
+      </div>
+
+      <div class="form-group">
+        <label class="field-label" for="parentName"><span data-i18n="lblParent"></span> <span class="req">*</span></label>
+        <input type="text" id="parentName" data-i18n-ph="phParent" autocomplete="name" />
+      </div>
+
+      <div class="form-group">
+        <label class="field-label" for="notes" data-i18n="lblNotes"></label>
+        <textarea id="notes" data-i18n-ph="phNotes"></textarea>
+      </div>
+
+      <div class="form-error" id="formError"></div>
+
+      <div class="confirm-badge" data-i18n="confirmNote"></div>
+
+      <button class="btn-whatsapp" onclick="sendWhatsApp()" data-i18n="btnWa"></button>
+      <button class="btn-calendar" onclick="downloadICS()" data-i18n="btnCal"></button>
 
       <div class="direct-call">
-        <span data-i18n="directText">מעדיפים להתקשר או לשלוח הודעה ישירות?</span>
+        <span data-i18n="directText"></span>
         <a href="tel:+972559902847">055-9902847</a>
       </div>
     </section>
@@ -706,6 +790,7 @@
     </details>
   </div>
 
+  <script src="reservations.js"></script>
   <script>
     const PHONE_INTL = "972559902847";
     let currentLang = "he";
@@ -718,6 +803,7 @@
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
     const selectedDates = new Set();
+    function formatISO(d) { return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; }
 
     const translations = {
       he: {
@@ -834,26 +920,249 @@
       }
     };
 
-    function formatISO(d) {
-      const y = d.getFullYear();
-      const m = String(d.getMonth() + 1).padStart(2, "0");
-      const day = String(d.getDate()).padStart(2, "0");
-      return `${y}-${m}-${day}`;
+    // ------------------------------------------------------------------
+    // Textes ajoutés / modifiés (v2)
+    // ------------------------------------------------------------------
+    Object.assign(translations.he, {
+      heroBio: "כמעט בת 14 (ב־17 בינואר), תלמידת כיתה ח׳ — אחראית, חמה ומלאת אהבה לילדים. אשמח לעזור לכם בשמחה ובמסירות, ומגיעה באוטובוס לכל רחבי גילה!",
+      priceTitle: "💰 מחירון ברור ונוח",
+      p1Title: "🧸 בייביסיטר ושמרטפות",
+      p1Desc: "שמירה בבית אחה״צ או בערב — לפי שעה",
+      p1Rate: "\u206630–35\u2069 ₪ / שעה",
+      p2Title: "🏫 הוצאה מהגן + שמירה בהמשך",
+      p2Desc: "איסוף, ליווי הביתה ונשארת עם הילדים עד שתחזרו — לפי שעה, מרגע האיסוף",
+      p2Rate: "35 ₪ / שעה",
+      p4Title: "🚶‍♀️ רק איסוף והחזרה הביתה",
+      p4Desc: "משימה קצרה: איסוף מהגן/מעון ומסירה להורה בבית (עד כ־45 דק׳)",
+      p4Rate: "45 ₪ לאיסוף",
+      p3Title: "📚 עזרה בשיעורי בית לקטנים",
+      p3Desc: "ליווי לימודי נעים וסבלני — לפי שעה",
+      p3Rate: "\u206635–40\u2069 ₪ / שעה",
+      p5Title: "💛 מנוי שבועי קבוע",
+      p5Desc: "אותו יום ואותה שעה בכל שבוע — המקום שלכם שמור. לדוגמה: איסוף מהגן פעם בשבוע. בשמירה קבועה לפי שעה — מחיר מוזל בתיאום.",
+      p5Rate: "4 איסופים: 160 ₪",
+      pricingNote: "💡 המחירים משוערים וגמישים — הכול נסגר בנעימות מראש, בלי הפתעות.",
+      bookTitle: "📅 בחירת מועד ושליחת בקשה",
+      availNote: "🎒 אני מסיימת ללמוד ב־15:15 (ובימי שלישי ב־13:30) ומגיעה באוטובוס — כך שאני זמינה בגילה מ־16:15 בערך, ובימי שלישי כבר מ־14:30.",
+      lblCalPick: "לחצו על תאריך (או כמה תאריכים):",
+      lgEarly: "יום שלישי — זמינה כבר מ־14:30",
+      lgTaken: "כבר תפוס 💛",
+      takenMsg: "💛 ביום הזה אני כבר אצל משפחה אחרת — אשמח מאוד למצוא לכם יום אחר!",
+      partialMsg: "💛 ביום הזה חלק מהשעות כבר תפוסות — השעות הפנויות מופיעות למטה.",
+      askMsg: "🕯️ ימי שישי ושבת — רק בתיאום מיוחד איתי, כתבו את השעות שמתאימות לכם.",
+      slotEarly: "14:30 – 16:30 (צהריים, יום ג׳)",
+      slotPm: "16:30 – 19:00 (אחר הצהריים)",
+      slotEve: "19:30 – 23:00 (ערב)",
+      slotCustom: "שעות אחרות / נתאם יחד",
+      slotTaken: " — תפוס 💛",
+      fOnce: "חד פעמי",
+      fReg: "מנוי קבוע — כל שבוע",
+      fMulti: "כמה פעמים / נתאם",
+      subNote: "💛 מנוי קבוע: בחרו בלוח את התאריך הראשון — ואותו יום ושעה יישמרו לכם בכל שבוע, במחיר מוזל.",
+      lblService: "במה אוכל לעזור? (אפשר לבחור יותר מאחד)",
+      optGan: "🏫 הוצאה מהגן/מעון",
+      optBaby: "🧸 בייביסיטר",
+      optHw: "📚 שיעורי בית",
+      ganBlockTitle: "🏫 פרטי האיסוף",
+      ganStay: "איסוף + נשארת עם הילדים בבית",
+      ganStaySub: "לפי שעה, מרגע האיסוף ועד שתחזרו",
+      ganMission: "רק איסוף והחזרה הביתה",
+      ganMissionSub: "הורה מחכה בבית — מחיר קבוע לאיסוף",
+      lblGanName: "שם הגן / המעון / הצהרון",
+      phGanName: "לדוגמה: גן שקד",
+      lblGanAddr: "כתובת הגן ושעת סיום",
+      phGanAddr: "לדוגמה: רח׳ הגננת 12, מסתיים ב־16:30",
+      babyBlockTitle: "🧸 בזמן השמירה",
+      babyFocus: "כשאני לבד עם הילדים — אני 100% איתם: משחקת, משגיחה, מגישה ארוחה שהכנתם מראש ומשכיבה לישון. לא עוסקת בשום דבר אחר.",
+      parentHome: "הורה יהיה בבית בזמן הזה",
+      parentHomeSub: "אז אוכל לעזור גם בדברים קטנים נוספים",
+      exMeal: "🍳 עזרה בהכנת ארוחה קלה לילדים",
+      exTidy: "🧺 סידור קל (צעצועים, חדר הילדים, כלים)",
+      hwBlockTitle: "📚 שיעורי בית",
+      lblHw: "כיתה ומקצוע (אם רלוונטי)",
+      phHw: "לדוגמה: כיתה ב׳ — קריאה וחשבון",
+      lblKids: "כמה ילדים?",
+      lblAges: "גילאי הילדים",
+      phAges: "לדוגמה: 3, 5",
+      kidsNote: "💛 כדי לתת לכל ילד את מלוא תשומת הלב, אני שומרת על עד 3 ילדים בו־זמנית. יש יותר? כתבו לי ונחשוב יחד על פתרון.",
+      lblStreet: "רחוב בגילה (לאן להגיע)",
+      phStreet: "לדוגמה: רח׳ הדולב",
+      lblParent: "שם ההורה",
+      phParent: "השם שלכם",
+      lblNotes: "משהו שחשוב לי לדעת? (לא חובה)",
+      phNotes: "אלרגיות, הרגלים, קוד לבניין…",
+      confirmNote: "⏳ זו בקשה בלבד: הלחיצה פותחת הודעת וואטסאפ מוכנה למעיין — המועד סגור רק אחרי שמעיין מאשרת.",
+      btnWa: "💬 שליחת הבקשה למעיין בוואטסאפ",
+      errIntro: "חסרים עוד כמה פרטים קטנים כדי שאוכל לענות לכם מהר 😊 — ",
+      errDate: "תאריך",
+      errService: "סוג השירות",
+      errGanName: "שם הגן",
+      errGanAddr: "כתובת הגן",
+      errKids: "מספר הילדים",
+      errAges: "גילאי הילדים",
+      errStreet: "רחוב",
+      errParent: "שם ההורה",
+      errEarly: (day, t) => `ב${day} אני מגיעה לגילה רק מ־${t} — אפשר לבחור שעה מאוחרת יותר? 😊`,
+      errOverlap: day => `💛 ב${day} השעות האלה כבר תפוסות — אשמח למצוא לכם שעה אחרת!`,
+      errOrder: "שעת הסיום צריכה להיות אחרי שעת ההתחלה 😊",
+      toAgree: "נתאם יחד",
+      fromWord: "החל מ־"
+    });
+
+    Object.assign(translations.fr, {
+      heroBio: "Bientôt 14 ans (le 17 janvier), élève de kita ח׳ à la Midrashiat Ouri (tsomet Pat) — sérieuse, chaleureuse et pleine d'amour pour les enfants. Je me déplace en bus dans tout Gilo !",
+      priceTitle: "💰 Des tarifs clairs et doux",
+      p1Title: "🧸 Babysitting & garde",
+      p1Desc: "Garde à domicile l'après-midi ou en soirée — à l'heure",
+      p1Rate: "30–35 ₪ / h",
+      p2Title: "🏫 Sortie de gan + garde ensuite",
+      p2Desc: "Je récupère l'enfant, le ramène et reste avec lui jusqu'à votre retour — à l'heure, dès la sortie",
+      p2Rate: "35 ₪ / h",
+      p4Title: "🚶‍♀️ Sortie de gan seule",
+      p4Desc: "Mission courte : je récupère l'enfant et le remets à un parent à la maison (environ 45 min)",
+      p4Rate: "45 ₪ la sortie",
+      p3Title: "📚 Aide aux devoirs (petits)",
+      p3Desc: "Accompagnement doux et patient — à l'heure",
+      p3Rate: "35–40 ₪ / h",
+      p5Title: "💛 Abonnement hebdomadaire",
+      p5Desc: "Même jour, même heure chaque semaine : votre place est gardée. Exemple : une sortie de gan par semaine. Pour une garde régulière à l'heure, tarif adouci à convenir.",
+      p5Rate: "4 sorties : 160 ₪",
+      pricingNote: "💡 Tarifs indicatifs et souples — tout se convient gentiment à l'avance, sans surprise.",
+      bookTitle: "📅 Choisir un créneau et envoyer la demande",
+      availNote: "🎒 Je termine l'école à 15h15 (13h30 le mardi) et je rentre en bus : je suis disponible à Gilo à partir de 16h15 environ, et dès 14h30 le mardi.",
+      lblCalPick: "Touchez une ou plusieurs dates :",
+      lgEarly: "Mardi — disponible dès 14h30",
+      lgTaken: "Déjà réservé 💛",
+      takenMsg: "💛 Ce jour-là, je suis déjà auprès d'une autre famille — je serai ravie de vous trouver un autre jour !",
+      partialMsg: "💛 Ce jour-là, une partie des horaires est déjà prise — les créneaux libres sont proposés plus bas.",
+      askMsg: "🕯️ Vendredi et samedi : uniquement sur accord particulier — indiquez les horaires qui vous conviennent.",
+      slotEarly: "14:30 – 16:30 (début d'après-midi, mardi)",
+      slotPm: "16:30 – 19:00 (après-midi)",
+      slotEve: "19:30 – 23:00 (soirée)",
+      slotCustom: "Autre horaire / à convenir",
+      slotTaken: " — déjà pris 💛",
+      fOnce: "Ponctuel (1 fois)",
+      fReg: "Abonnement — chaque semaine",
+      fMulti: "Plusieurs fois / à convenir",
+      subNote: "💛 Abonnement : choisissez la première date dans le calendrier — le même jour et la même heure vous sont réservés chaque semaine, à tarif adouci.",
+      lblService: "Comment puis-je vous aider ? (plusieurs choix possibles)",
+      optGan: "🏫 Sortie gan/crèche",
+      optBaby: "🧸 Babysitting",
+      optHw: "📚 Aide aux devoirs",
+      ganBlockTitle: "🏫 La sortie de gan",
+      ganStay: "Sortie + je reste avec les enfants à la maison",
+      ganStaySub: "À l'heure, de la sortie jusqu'à votre retour",
+      ganMission: "Sortie seule, retour à la maison",
+      ganMissionSub: "Un parent attend à la maison — prix fixe par sortie",
+      lblGanName: "Nom du gan / de la crèche / du tsaharon",
+      phGanName: "Ex : Gan Shaked",
+      lblGanAddr: "Adresse du gan et heure de fin",
+      phGanAddr: "Ex : 12 rue HaGanenet, fin à 16h30",
+      babyBlockTitle: "🧸 Pendant la garde",
+      babyFocus: "Quand je suis seule avec les enfants, je suis à 100 % avec eux : je joue, je surveille, je sers le repas que vous avez préparé et je les couche. Rien d'autre ne me distrait.",
+      parentHome: "Un parent sera à la maison pendant ce temps",
+      parentHomeSub: "Je peux alors donner aussi un petit coup de main",
+      exMeal: "🍳 Aider à préparer un repas simple pour les enfants",
+      exTidy: "🧺 Petit rangement (jouets, chambre des enfants, vaisselle)",
+      hwBlockTitle: "📚 Les devoirs",
+      lblHw: "Classe et matière (si utile)",
+      phHw: "Ex : kita ב׳ — lecture et calcul",
+      lblKids: "Combien d'enfants ?",
+      lblAges: "Âges des enfants",
+      phAges: "Ex : 3 et 5 ans",
+      kidsNote: "💛 Pour donner toute mon attention à chaque enfant, je garde jusqu'à 3 enfants à la fois. Vous en avez plus ? Écrivez-moi, on trouvera une solution ensemble.",
+      lblStreet: "Rue à Gilo (où venir)",
+      phStreet: "Ex : rue HaDolev",
+      lblParent: "Nom du parent",
+      phParent: "Votre nom",
+      lblNotes: "Quelque chose d'important à savoir ? (facultatif)",
+      phNotes: "Allergies, habitudes, code de l'immeuble…",
+      confirmNote: "⏳ Ceci est une demande : le bouton ouvre un message WhatsApp déjà rédigé pour Maayan — le créneau n'est réservé qu'après sa confirmation.",
+      btnWa: "💬 Envoyer la demande à Maayan sur WhatsApp",
+      errIntro: "Il manque encore quelques petites informations pour que je puisse vous répondre vite 😊 — ",
+      errDate: "une date",
+      errService: "le service",
+      errGanName: "le nom du gan",
+      errGanAddr: "l'adresse du gan",
+      errKids: "le nombre d'enfants",
+      errAges: "les âges",
+      errStreet: "la rue",
+      errParent: "votre nom",
+      errEarly: (day, t) => `Le ${day}, je n'arrive à Gilo qu'à partir de ${t} — pouvez-vous choisir un peu plus tard ? 😊`,
+      errOverlap: day => `💛 Le ${day}, cet horaire est déjà pris — je serai ravie de vous trouver un autre moment !`,
+      errOrder: "L'heure de fin doit être après l'heure de début 😊",
+      toAgree: "à convenir ensemble",
+      fromWord: "à partir de "
+    });
+
+    // ------------------------------------------------------------------
+    // Horaires de Maayan : heure d'arrivée possible à Gilo, par jour (0 = dimanche)
+    // École jusqu'à 15h15 (mardi 13h30) + 45 min à 1 h de bus.
+    // ------------------------------------------------------------------
+    const EARLIEST = { 0: "16:15", 1: "16:15", 2: "14:30", 3: "16:15", 4: "16:15", 5: null, 6: null };
+    const SLOTS = {
+      early: { from: "14:30", to: "16:30", key: "slotEarly" },
+      pm:    { from: "16:30", to: "19:00", key: "slotPm" },
+      eve:   { from: "19:30", to: "23:00", key: "slotEve" }
+    };
+    const BOOKED = Array.isArray(window.MAAYAN_BOOKED) ? window.MAAYAN_BOOKED : [];
+
+    const $ = id => document.getElementById(id);
+    const T = () => translations[currentLang];
+    const toMin = t => { const [h, m] = t.split(":").map(Number); return h * 60 + m; };
+    const isoToDate = iso => { const [y, m, d] = iso.split("-").map(Number); return new Date(y, m - 1, d); };
+    const weekdayOf = iso => isoToDate(iso).getDay();
+
+    function daySlots(iso) {
+      const wd = weekdayOf(iso);
+      if (EARLIEST[wd] === null) return [];
+      return wd === 2 ? ["early", "pm", "eve"] : ["pm", "eve"];
+    }
+
+    // Plages déjà prises ce jour-là, en minutes
+    function bookedRanges(iso) {
+      const wd = weekdayOf(iso);
+      const out = [];
+      BOOKED.forEach(b => {
+        const hit = b.date ? b.date === iso
+          : (typeof b.weekday === "number" && b.weekday === wd && (!b.start || iso >= b.start) && (!b.until || iso <= b.until));
+        if (hit) out.push(b.from && b.to ? [toMin(b.from), toMin(b.to)] : [0, 1440]);
+      });
+      return out;
+    }
+    const overlaps = (iso, from, to) => bookedRanges(iso).some(([a, b]) => toMin(from) < b && toMin(to) > a);
+    const slotFree = (iso, id) => !overlaps(iso, SLOTS[id].from, SLOTS[id].to);
+
+    function dayStatus(iso) {
+      const ranges = bookedRanges(iso);
+      if (!ranges.length) return "free";
+      if (ranges.some(([a, b]) => a === 0 && b === 1440)) return "taken";
+      const slots = daySlots(iso);
+      if (!slots.length) return "partial";
+      const free = slots.filter(id => slotFree(iso, id));
+      return free.length === 0 ? "taken" : (free.length < slots.length ? "partial" : "free");
+    }
+
+    function fmtDate(iso) {
+      const d = isoToDate(iso);
+      return `${T().weekdaysLong[d.getDay()]} ${d.getDate()}/${d.getMonth() + 1}`;
+    }
+
+    function showCalMsg(text) {
+      const el = $("calMsg");
+      el.textContent = text || "";
+      el.classList.toggle("show", !!text);
     }
 
     function renderCalendar() {
-      const dict = translations[currentLang];
-      document.getElementById("calMonthTitle").textContent = `${dict.months[viewMonth]} ${viewYear}`;
-
-      const weekdaysEl = document.getElementById("calWeekdays");
-      weekdaysEl.innerHTML = dict.weekdays.map(w => `<span>${w}</span>`).join("");
-
-      const daysEl = document.getElementById("calDays");
+      const dict = T();
+      $("calMonthTitle").textContent = `${dict.months[viewMonth]} ${viewYear}`;
+      $("calWeekdays").innerHTML = dict.weekdays.map(w => `<span>${w}</span>`).join("");
+      const daysEl = $("calDays");
       daysEl.innerHTML = "";
 
       const firstDay = new Date(viewYear, viewMonth, 1).getDay();
       const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
-
       for (let i = 0; i < firstDay; i++) {
         const empty = document.createElement("div");
         empty.className = "cal-empty";
@@ -868,35 +1177,37 @@
         btn.className = "cal-day";
         btn.textContent = day;
 
-        if (d.getDay() === 6) btn.classList.add("shabbat");
         if (d < today) {
           btn.disabled = true;
         } else {
+          const status = dayStatus(iso);
+          const wd = d.getDay();
           if (d.getTime() === today.getTime()) btn.classList.add("today");
+          if (wd === 2) btn.classList.add("early");
+          if (EARLIEST[wd] === null) btn.classList.add("ask");
+          if (status === "taken") { btn.classList.add("taken"); btn.setAttribute("aria-disabled", "true"); }
+          if (status === "partial") btn.classList.add("partial");
           if (selectedDates.has(iso)) btn.classList.add("selected");
           btn.onclick = () => {
+            if (status === "taken") { showCalMsg(dict.takenMsg); return; }
             if (selectedDates.has(iso)) {
               selectedDates.delete(iso);
+              showCalMsg("");
             } else {
               selectedDates.add(iso);
+              showCalMsg(status === "partial" ? dict.partialMsg : (EARLIEST[wd] === null ? dict.askMsg : ""));
             }
             renderCalendar();
+            rebuildSlots();
           };
         }
         daysEl.appendChild(btn);
       }
 
       const sorted = Array.from(selectedDates).sort();
-      const sumEl = document.getElementById("selectedSummary");
-      sumEl.textContent = sorted.length
+      $("selectedSummary").textContent = sorted.length
         ? dict.selectedPrefix + sorted.map(fmtDate).join(" · ")
         : dict.noneSelected;
-    }
-
-    function fmtDate(iso) {
-      const [y, m, d] = iso.split("-").map(Number);
-      const wd = translations[currentLang].weekdaysLong[new Date(y, m - 1, d).getDay()];
-      return `${wd} ${d}/${m}`;
     }
 
     function changeMonth(delta) {
@@ -909,107 +1220,222 @@
       renderCalendar();
     }
 
+    // Créneaux proposés : communs à toutes les dates choisies, grisés s'ils sont déjà pris
+    function rebuildSlots() {
+      const dict = T();
+      const sel = $("slotTime");
+      const previous = sel.value;
+      const dates = Array.from(selectedDates);
+      let ids = ["pm", "eve"];
+      if (dates.length) {
+        ids = ["early", "pm", "eve"].filter(id => dates.every(iso => daySlots(iso).includes(id)));
+      }
+      sel.innerHTML = "";
+      ids.forEach(id => {
+        const taken = dates.some(iso => !slotFree(iso, id));
+        const o = document.createElement("option");
+        o.value = id;
+        o.textContent = dict[SLOTS[id].key] + (taken ? dict.slotTaken : "");
+        o.disabled = taken;
+        sel.appendChild(o);
+      });
+      const custom = document.createElement("option");
+      custom.value = "custom";
+      custom.textContent = dict.slotCustom;
+      sel.appendChild(custom);
+
+      const keep = Array.from(sel.options).find(o => o.value === previous && !o.disabled);
+      sel.value = keep ? previous : (Array.from(sel.options).find(o => !o.disabled) || custom).value;
+      toggleCustomTime();
+    }
+
+    function toggleCustomTime() {
+      $("customTime").classList.toggle("show", $("slotTime").value === "custom");
+    }
+
+    function checkedValues(name) {
+      return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(el => el.value);
+    }
+
+    // Affiche les champs utiles selon les services cochés
+    function refreshDynamic() {
+      const services = checkedValues("service");
+      $("blockGan").classList.toggle("show", services.includes("gan"));
+      $("blockBaby").classList.toggle("show", services.includes("baby"));
+      $("blockHw").classList.toggle("show", services.includes("hw"));
+      $("babyExtras").classList.toggle("show", $("parentHome").checked);
+      if (!$("parentHome").checked) document.querySelectorAll('input[name="extra"]').forEach(el => { el.checked = false; });
+      $("kidsNote").classList.toggle("show", $("kidsCount").value === "4+");
+      $("subNote").classList.toggle("show", $("freq").value === "weekly");
+    }
+
     function setLang(lang) {
       currentLang = lang;
       document.documentElement.lang = lang;
       document.documentElement.dir = lang === "he" ? "rtl" : "ltr";
-      document.getElementById("btn-he").classList.toggle("active", lang === "he");
-      document.getElementById("btn-fr").classList.toggle("active", lang === "fr");
-
-      const dict = translations[lang];
+      $("btn-he").classList.toggle("active", lang === "he");
+      $("btn-fr").classList.toggle("active", lang === "fr");
+      const dict = T();
       document.querySelectorAll("[data-i18n]").forEach(el => {
-        const key = el.getAttribute("data-i18n");
-        if (dict[key]) el.textContent = dict[key];
+        const v = dict[el.getAttribute("data-i18n")];
+        if (typeof v === "string") el.textContent = v;
       });
-      document.getElementById("details").placeholder = dict.detailsPlaceholder;
+      document.querySelectorAll("[data-i18n-ph]").forEach(el => {
+        const v = dict[el.getAttribute("data-i18n-ph")];
+        if (typeof v === "string") el.placeholder = v;
+      });
+      showCalMsg("");
+      $("formError").classList.remove("show");
       renderCalendar();
-    }
-
-    function getSelectedServices() {
-      const labelsHe = { gan: "הוצאה מהגן/מעון", baby: "בייביסיטר", hw: "עזרה בשיעורי בית" };
-      const labelsFr = { gan: "Sortie de Gan/Crèche", baby: "Babysitting", hw: "Aide aux devoirs" };
-      const map = currentLang === "he" ? labelsHe : labelsFr;
-      const checked = Array.from(document.querySelectorAll('input[name="service"]:checked')).map(cb => map[cb.value]);
-      return checked.length ? checked.join(", ") : (currentLang === "he" ? "בייביסיטר / הוצאה מהגן" : "Babysitting / Sortie de Gan");
-    }
-
-    function toggleCustomTime() {
-      document.getElementById("customTime").classList.toggle("show", document.getElementById("slotTime").value === "custom");
-    }
-
-    function optionText(id) {
-      const el = document.getElementById(id);
-      return el.options[el.selectedIndex].textContent.trim();
+      rebuildSlots();
+      refreshDynamic();
     }
 
     // Renvoie { label, from, to } ; from/to au format HH:MM ou null
     function getSlot() {
-      const v = document.getElementById("slotTime").value;
-      if (v !== "custom") {
-        const [from, to] = v.split("-");
-        return { label: optionText("slotTime"), from, to };
-      }
-      const from = document.getElementById("timeFrom").value || null;
-      const to = document.getElementById("timeTo").value || null;
-      let label = optionText("slotTime");
+      const dict = T();
+      const v = $("slotTime").value;
+      if (v !== "custom") return { label: `${SLOTS[v].from} – ${SLOTS[v].to}`, from: SLOTS[v].from, to: SLOTS[v].to };
+      const from = $("timeFrom").value || null;
+      const to = from ? ($("timeTo").value || null) : null;
+      let label = dict.toAgree;
       if (from && to) label = `${from} – ${to}`;
-      else if (from) label = (currentLang === "he" ? "החל מ־" : "à partir de ") + from;
-      return { label, from, to: from ? to : null };
+      else if (from) label = dict.fromWord + from;
+      return { label, from, to };
+    }
+
+    // Vérifie le formulaire ; renvoie un texte d'erreur chaleureux, ou "" si tout est bon
+    function validate() {
+      const dict = T();
+      const services = checkedValues("service");
+      const dates = Array.from(selectedDates).sort();
+      const missing = [];
+      const mark = (id, bad) => { $(id).classList.toggle("invalid", bad); return bad; };
+      document.querySelectorAll(".invalid").forEach(el => el.classList.remove("invalid"));
+
+      if (!dates.length) missing.push(dict.errDate);
+      if (!services.length) missing.push(dict.errService);
+      if (services.includes("gan")) {
+        if (mark("ganName", !$("ganName").value.trim())) missing.push(dict.errGanName);
+        if (mark("ganAddr", !$("ganAddr").value.trim())) missing.push(dict.errGanAddr);
+      }
+      if (mark("kidsCount", !$("kidsCount").value)) missing.push(dict.errKids);
+      if (mark("kidsAges", !$("kidsAges").value.trim())) missing.push(dict.errAges);
+      if (mark("homeStreet", !$("homeStreet").value.trim())) missing.push(dict.errStreet);
+      if (mark("parentName", !$("parentName").value.trim())) missing.push(dict.errParent);
+      if (missing.length) return dict.errIntro + missing.join(", ") + ".";
+
+      const slot = getSlot();
+      if ($("slotTime").value === "custom" && slot.from) {
+        if (slot.to && toMin(slot.to) <= toMin(slot.from)) { mark("timeTo", true); return dict.errOrder; }
+        for (const iso of dates) {
+          const earliest = EARLIEST[weekdayOf(iso)];
+          if (earliest && toMin(slot.from) < toMin(earliest)) { mark("timeFrom", true); return dict.errEarly(fmtDate(iso), earliest); }
+          const end = slot.to || `${String(Math.min(23, Math.floor(toMin(slot.from) / 60) + 1)).padStart(2, "0")}:${slot.from.split(":")[1]}`;
+          if (overlaps(iso, slot.from, end)) { mark("timeFrom", true); return dict.errOverlap(fmtDate(iso)); }
+        }
+      }
+      return "";
+    }
+
+    function buildMessage() {
+      const he = currentLang === "he";
+      const services = checkedValues("service");
+      const dates = Array.from(selectedDates).sort().map(fmtDate).join(", ");
+      const slot = getSlot();
+      const freq = $("freq").value;
+      const weekly = freq === "weekly";
+      const mission = services.includes("gan") && document.querySelector('input[name="ganMode"]:checked').value === "mission";
+      const val = id => $(id).value.trim();
+      const onlyPickup = mission && services.length === 1;
+      const kids = $("kidsCount").value;
+      const extras = checkedValues("extra");
+
+      const svcLabels = he
+        ? { gan: mission ? "הוצאה מהגן — רק איסוף והחזרה הביתה" : "הוצאה מהגן + שמירה בהמשך", baby: "בייביסיטר", hw: "עזרה בשיעורי בית" }
+        : { gan: mission ? "Sortie de gan seule (retour à la maison)" : "Sortie de gan + garde ensuite", baby: "Babysitting", hw: "Aide aux devoirs" };
+      const freqLabel = he
+        ? { once: "חד פעמי", weekly: "מנוי קבוע — כל שבוע באותו יום ושעה", multi: "כמה פעמים / לתאם" }[freq]
+        : { once: "ponctuel (1 fois)", weekly: "abonnement — chaque semaine, même jour et même heure", multi: "plusieurs fois / à convenir" }[freq];
+
+      const prices = [];
+      if (services.includes("gan")) {
+        if (mission) prices.push(weekly ? (he ? "מנוי: 4 איסופים ב־160 ₪" : "abonnement : 4 sorties pour 160 ₪") : (he ? "איסוף: 45 ₪" : "sortie : 45 ₪"));
+        else prices.push(he ? "הוצאה מהגן + שמירה: 35 ₪ לשעה" : "sortie + garde : 35 ₪/h");
+      }
+      if (services.includes("baby")) prices.push(he ? "בייביסיטר: 30–35 ₪ לשעה" : "babysitting : 30–35 ₪/h");
+      if (services.includes("hw")) prices.push(he ? "שיעורי בית: 35–40 ₪ לשעה" : "devoirs : 35–40 ₪/h");
+      if (weekly && !mission) prices.push(he ? "קבוע — מחיר מוזל בתיאום" : "régulier — tarif adouci à convenir");
+
+      const L = [];
+      if (he) {
+        L.push("🌼 *בקשה חדשה מהאתר* (ממתינה לאישור שלך)", "");
+        L.push(`👤 *הורה:* ${val("parentName")}`);
+        L.push(`🧩 *שירות:* ${services.map(s => svcLabels[s]).join(" + ")}`);
+        L.push(`📅 *מתי:* ${dates}${weekly ? " (תאריך ראשון)" : ""}`);
+        L.push(onlyPickup && slot.from ? `🕒 *שעת איסוף מהגן:* ${slot.from}` : `🕒 *שעות:* ${slot.label}`);
+        L.push(`🔁 *תדירות:* ${freqLabel}`);
+        L.push(`👶 *ילדים:* ${kids} — גילאים: ${val("kidsAges")}${kids === "4+" ? "  ⚠️ יותר מ־3 ילדים — לדבר עם ההורים" : ""}`);
+        if (services.includes("gan")) L.push(`🏫 *גן/מעון:* ${val("ganName")} — ${val("ganAddr")}`);
+        L.push(`🏠 *רחוב בגילה:* ${val("homeStreet")}`);
+        if (services.includes("baby")) L.push(`🧑‍🍼 *הורה בבית:* ${$("parentHome").checked ? "כן" : "לא — אני לבד עם הילדים"}`);
+        if (extras.length) L.push(`➕ *בקשות נוספות:* ${extras.map(e => ({ meal: "עזרה בהכנת ארוחה קלה", tidy: "סידור קל" }[e])).join(", ")}`);
+        if (services.includes("hw") && val("hwInfo")) L.push(`📚 *שיעורי בית:* ${val("hwInfo")}`);
+        if (val("notes")) L.push(`📝 *הערות:* ${val("notes")}`);
+        L.push(`💰 *לפי המחירון:* ${prices.join(" · ")}`);
+        L.push("", "מעיין, מתאים לך? נשמח לאישור 😊");
+      } else {
+        L.push("🌼 *Nouvelle demande depuis le site* (en attente de ta confirmation)", "");
+        L.push(`👤 *Parent :* ${val("parentName")}`);
+        L.push(`🧩 *Service :* ${services.map(s => svcLabels[s]).join(" + ")}`);
+        L.push(`📅 *Quand :* ${dates}${weekly ? " (première date)" : ""}`);
+        L.push(onlyPickup && slot.from ? `🕒 *Heure de sortie du gan :* ${slot.from}` : `🕒 *Horaire :* ${slot.label}`);
+        L.push(`🔁 *Fréquence :* ${freqLabel}`);
+        L.push(`👶 *Enfants :* ${kids} — âges : ${val("kidsAges")}${kids === "4+" ? "  ⚠️ plus de 3 enfants — à voir avec les parents" : ""}`);
+        if (services.includes("gan")) L.push(`🏫 *Gan / crèche :* ${val("ganName")} — ${val("ganAddr")}`);
+        L.push(`🏠 *Rue à Gilo :* ${val("homeStreet")}`);
+        if (services.includes("baby")) L.push(`🧑‍🍼 *Parent à la maison :* ${$("parentHome").checked ? "oui" : "non — je suis seule avec les enfants"}`);
+        if (extras.length) L.push(`➕ *Demandes en plus :* ${extras.map(e => ({ meal: "aide pour un repas simple", tidy: "petit rangement" }[e])).join(", ")}`);
+        if (services.includes("hw") && val("hwInfo")) L.push(`📚 *Devoirs :* ${val("hwInfo")}`);
+        if (val("notes")) L.push(`📝 *Remarques :* ${val("notes")}`);
+        L.push(`💰 *Selon la grille :* ${prices.join(" · ")}`);
+        L.push("", "Maayan, est-ce que ça te convient ? Merci pour ta confirmation 😊");
+      }
+      return L.join("\n");
+    }
+
+    function showError(text) {
+      const el = $("formError");
+      el.textContent = text;
+      el.classList.toggle("show", !!text);
+      if (text) el.scrollIntoView({ behavior: "smooth", block: "center" });
     }
 
     function sendWhatsApp() {
-      const he = currentLang === "he";
-      const services = getSelectedServices();
-      const dates = Array.from(selectedDates).sort().map(fmtDate).join(", ");
-      const slot = getSlot();
-      const freq = optionText("freq");
-      const detailsVal = document.getElementById("details").value.trim();
-
-      const lines = he
-        ? [
-            "היי מעיין! 😊 ראינו את המודעה שלך בגילה ונשמח לתאם איתך (בקשה — ממתינה לאישורך):",
-            `• שירות: ${services}`,
-            `• תאריכים: ${dates || "נתאם יחד"}`,
-            `• שעות: ${slot.label}`,
-            `• תדירות: ${freq}`,
-            detailsVal ? `• פרטים: ${detailsVal}` : "",
-            "את פנויה? תודה רבה!"
-          ]
-        : [
-            "Bonjour Maayan ! 😊 Nous avons vu ton affiche à Gilo et aimerions convenir d'un créneau (demande — en attente de ta confirmation) :",
-            `• Service : ${services}`,
-            `• Date(s) : ${dates || "à convenir ensemble"}`,
-            `• Horaire : ${slot.label}`,
-            `• Fréquence : ${freq}`,
-            detailsVal ? `• Infos : ${detailsVal}` : "",
-            "Es-tu disponible ? Merci beaucoup !"
-          ];
-
-      const msg = lines.filter(Boolean).join("\n");
-      window.location.href = `https://wa.me/${PHONE_INTL}?text=${encodeURIComponent(msg)}`;
+      const err = validate();
+      showError(err);
+      if (err) return;
+      window.location.href = `https://wa.me/${PHONE_INTL}?text=${encodeURIComponent(buildMessage())}`;
     }
 
     function icsEscape(t) {
-      return t.replace(/\\/g, "\\\\").replace(/;/g, "\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
+      return t.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
     }
 
     function downloadICS() {
       const he = currentLang === "he";
       const sorted = Array.from(selectedDates).sort();
-      if (!sorted.length) {
-        const sumEl = document.getElementById("selectedSummary");
-        sumEl.textContent = translations[currentLang].noneSelected;
-        sumEl.scrollIntoView({ behavior: "smooth", block: "center" });
-        return;
-      }
-      const services = getSelectedServices();
+      if (!sorted.length) { showError(T().errIntro + T().errDate + "."); return; }
+      showError("");
+      const svc = checkedValues("service").map(s => (he
+        ? { gan: "הוצאה מהגן", baby: "בייביסיטר", hw: "שיעורי בית" }
+        : { gan: "Sortie de gan", baby: "Babysitting", hw: "Aide aux devoirs" })[s]).join(" + ") || (he ? "שמירה" : "Garde");
       const slot = getSlot();
+      const weekly = $("freq").value === "weekly";
       const pad = n => String(n).padStart(2, "0");
       const now = new Date();
       const stamp = `${now.getUTCFullYear()}${pad(now.getUTCMonth() + 1)}${pad(now.getUTCDate())}T${pad(now.getUTCHours())}${pad(now.getUTCMinutes())}${pad(now.getUTCSeconds())}Z`;
-      const summary = he
-        ? `מעיין – ${services} (ממתין לאישור)`
-        : `Maayan – ${services} (à confirmer)`;
+      const summary = he ? `מעיין – ${svc} (ממתין לאישור)` : `Maayan – ${svc} (à confirmer)`;
       const desc = he
         ? `בקשה שנשלחה למעיין – המועד סופי רק אחרי אישור שלה.\nשעות: ${slot.label}\nוואטסאפ / טלפון: 055-9902847`
         : `Demande envoyée à Maayan – créneau définitif après sa confirmation.\nHoraire : ${slot.label}\nWhatsApp / téléphone : +972 55-990-2847`;
@@ -1019,13 +1445,13 @@
         const day = iso.replace(/-/g, "");
         out.push("BEGIN:VEVENT", `UID:${day}-${idx}-${now.getTime()}@maayan-gilo`, `DTSTAMP:${stamp}`);
         if (slot.from && slot.to) {
-          // heure locale « flottante » : l'agenda du parent l'affiche à l'heure de Jérusalem
           out.push(`DTSTART:${day}T${slot.from.replace(":", "")}00`, `DTEND:${day}T${slot.to.replace(":", "")}00`);
         } else {
-          const [y, m, d] = iso.split("-").map(Number);
-          const next = new Date(y, m - 1, d + 1);
+          const d = isoToDate(iso);
+          const next = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1);
           out.push(`DTSTART;VALUE=DATE:${day}`, `DTEND;VALUE=DATE:${formatISO(next).replace(/-/g, "")}`);
         }
+        if (weekly) out.push("RRULE:FREQ=WEEKLY;COUNT=12");
         out.push(`SUMMARY:${icsEscape(summary)}`, `DESCRIPTION:${icsEscape(desc)}`, `LOCATION:${icsEscape(he ? "גילה, ירושלים" : "Gilo, Jérusalem")}`, "STATUS:TENTATIVE", "END:VEVENT");
       });
       out.push("END:VCALENDAR");
@@ -1040,7 +1466,7 @@
       setTimeout(() => URL.revokeObjectURL(link.href), 2000);
     }
 
-    renderCalendar();
+    setLang("he");
   </script>
 </body>
 </html>
