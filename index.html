@@ -1466,7 +1466,69 @@
       setTimeout(() => URL.revokeObjectURL(link.href), 2000);
     }
 
+    // ------------------------------------------------------------------
+    // Créneaux pris : lus dans le tableau Google de Maayan (en plus de reservations.js)
+    // Colonnes : Date (JJ/MM/AAAA) | De | À | Chaque semaine ? (oui) | Note
+    // ------------------------------------------------------------------
+    const SHEET_CSV = "https://docs.google.com/spreadsheets/d/1QufmnPgLJhFm-_cysG389sE2Devc_3qyDfXp4bENlA4/gviz/tq?tqx=out:csv&headers=1";
+
+    function parseCSV(text) {
+      const rows = []; let row = [], cell = "", q = false;
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        if (q) {
+          if (c === '"' && text[i + 1] === '"') { cell += '"'; i++; }
+          else if (c === '"') q = false;
+          else cell += c;
+        } else if (c === '"') q = true;
+        else if (c === ",") { row.push(cell); cell = ""; }
+        else if (c === "\n") { row.push(cell); rows.push(row); row = []; cell = ""; }
+        else if (c !== "\r") cell += c;
+      }
+      if (cell || row.length) { row.push(cell); rows.push(row); }
+      return rows;
+    }
+
+    function parseSheetDate(v) {
+      let m = v.trim().match(/^(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{2,4})$/);
+      if (m) return `${m[3].length === 2 ? "20" + m[3] : m[3]}-${m[2].padStart(2, "0")}-${m[1].padStart(2, "0")}`;
+      m = v.trim().match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+      return m ? `${m[1]}-${m[2].padStart(2, "0")}-${m[3].padStart(2, "0")}` : null;
+    }
+
+    function parseSheetTime(v) {
+      const m = v.trim().match(/^(\d{1,2})[:hH.](\d{2})?(?::\d{2})?\s*([AaPp][Mm])?$/);
+      if (!m) return null;
+      let h = Number(m[1]);
+      if (m[3]) { const pm = m[3].toLowerCase() === "pm"; h = (h % 12) + (pm ? 12 : 0); }
+      return h > 23 ? null : `${String(h).padStart(2, "0")}:${m[2] || "00"}`;
+    }
+
+    function loadBookedSheet() {
+      fetch(SHEET_CSV + "&t=" + Date.now())
+        .then(r => (r.ok ? r.text() : ""))
+        .then(text => {
+          let added = 0;
+          parseCSV(text).slice(1).forEach(r => {
+            const iso = parseSheetDate(r[0] || "");
+            if (!iso) return;
+            const from = parseSheetTime(r[1] || ""), to = parseSheetTime(r[2] || "");
+            const span = from && to && toMin(to) > toMin(from) ? { from, to } : {};
+            const weekly = /^(oui|yes|כן|x|1|true)$/i.test((r[3] || "").trim());
+            BOOKED.push(weekly ? Object.assign({ weekday: weekdayOf(iso), start: iso }, span) : Object.assign({ date: iso }, span));
+            added++;
+          });
+          if (!added) return;
+          // une date déjà choisie devenue complète est retirée
+          Array.from(selectedDates).forEach(iso => { if (dayStatus(iso) === "taken") selectedDates.delete(iso); });
+          renderCalendar();
+          rebuildSlots();
+        })
+        .catch(() => {});
+    }
+
     setLang("he");
+    loadBookedSheet();
   </script>
 </body>
 </html>
