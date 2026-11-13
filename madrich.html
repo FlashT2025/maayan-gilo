@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#2E6F65" />
+  <title>מעין | המדריך האישי שלי</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Rubik:wght@500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #FFFBF7; --card: #FFFFFF; --primary: #E06D53; --primary-dark: #C8563D;
+      --secondary: #2E6F65; --secondary-soft: #E9F4F2; --accent-warm: #FCECE6;
+      --text: #24292E; --muted: #5C6670; --border: #EADFD7;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Heebo', sans-serif; background: var(--bg); color: var(--text); line-height: 1.65; padding-bottom: 48px; }
+    .container { max-width: 560px; margin: 0 auto; padding: 16px; }
+    .hero { background: linear-gradient(155deg, #2E6F65 0%, #3F8C7F 100%); color: #fff; border-radius: 24px; padding: 22px 20px; margin-bottom: 18px; text-align: center; }
+    .hero h1 { font-family: 'Rubik', sans-serif; font-size: 1.6rem; font-weight: 800; margin-bottom: 6px; }
+    .hero p { font-size: 0.98rem; opacity: 0.95; }
+    .toc { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+    .toc a { background: var(--card); border: 1px solid var(--border); border-radius: 999px; padding: 7px 13px; font-size: 0.86rem; font-weight: 700; color: var(--text); text-decoration: none; }
+    section { background: var(--card); border: 1px solid var(--border); border-radius: 22px; padding: 20px; margin-bottom: 18px; box-shadow: 0 6px 20px rgba(0,0,0,0.03); scroll-margin-top: 12px; }
+    h2 { font-family: 'Rubik', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 12px; }
+    h3 { font-size: 1rem; font-weight: 800; margin: 14px 0 6px; }
+    p { font-size: 0.95rem; margin-bottom: 8px; }
+    ul, ol { padding-inline-start: 20px; font-size: 0.95rem; }
+    li { margin-bottom: 6px; }
+    .price { display: flex; justify-content: space-between; align-items: center; gap: 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 11px 14px; margin-bottom: 8px; }
+    .price b { display: block; font-size: 0.96rem; }
+    .price span { font-size: 0.84rem; color: var(--muted); }
+    .tag { background: var(--secondary-soft); color: var(--secondary); font-family: 'Rubik', sans-serif; font-weight: 800; padding: 6px 12px; border-radius: 12px; white-space: nowrap; font-size: 1rem; }
+    .note { background: var(--secondary-soft); color: var(--secondary); border-radius: 12px; padding: 10px 12px; font-size: 0.9rem; font-weight: 600; margin-top: 10px; }
+    .warm { background: #FFF6E0; color: #7D5A0B; border-radius: 12px; padding: 10px 12px; font-size: 0.9rem; font-weight: 600; margin-top: 10px; }
+    .rule { background: #FFF1EF; color: #A23A32; border: 1px solid #F1B8B2; border-radius: 12px; padding: 10px 12px; font-size: 0.92rem; font-weight: 700; margin-bottom: 8px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-top: 6px; }
+    td, th { border-bottom: 1px solid var(--border); padding: 8px 4px; text-align: right; }
+    th { color: var(--muted); font-weight: 700; font-size: 0.82rem; }
+    td:last-child, th:last-child { text-align: left; font-weight: 800; white-space: nowrap; }
+    .tpl { background: var(--bg); border: 1.5px solid var(--border); border-radius: 14px; padding: 12px; margin-bottom: 10px; }
+    .tpl .when { font-weight: 800; font-size: 0.9rem; color: var(--primary-dark); margin-bottom: 6px; }
+    .tpl .txt { white-space: pre-wrap; font-size: 0.93rem; background: #fff; border-radius: 10px; padding: 10px; border: 1px dashed #E8C5B8; }
+    .tpl button { margin-top: 8px; border: none; background: var(--secondary); color: #fff; font-family: inherit; font-weight: 700; font-size: 0.88rem; padding: 8px 14px; border-radius: 10px; cursor: pointer; }
+    .tpl button.done { background: #1DA851; }
+    .big-link { display: block; text-align: center; background: var(--primary); color: #fff; font-weight: 800; text-decoration: none; padding: 13px; border-radius: 14px; margin-top: 10px; }
+    .big-link.alt { background: var(--secondary-soft); color: var(--secondary); border: 1.5px solid var(--secondary); }
+    @media (max-width: 400px) { .price { flex-direction: column; align-items: flex-start; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hero">
+      <h1>מעין, המדריך האישי שלך 💛</h1>
+      <p>כל מה שצריך כדי לענות להורים בביטחון, בחיוך ובבהירות. את יודעת מה את שווה!</p>
+    </div>
+
+    <div class="toc">
+      <a href="#prices">💰 המחירים שלי</a>
+      <a href="#calc">🧮 כמה יוצא?</a>
+      <a href="#flow">📩 הגיעה בקשה</a>
+      <a href="#answers">💬 תשובות מוכנות</a>
+      <a href="#rules">🛡️ הכללים שלי</a>
+      <a href="#first">🌟 פעם ראשונה</a>
+    </div>
+
+    <section id="prices">
+      <h2>💰 המחירים שלי — לדעת בעל פה</h2>
+      <div class="price"><div><b>🧸 בייביסיטר</b><span>שמירה בבית, לפי שעה</span></div><div class="tag">&#x2066;30–35&#x2069; ₪ לשעה</div></div>
+      <div class="price"><div><b>🏫 הוצאה מהגן + נשארת עם הילדים</b><span>לפי שעה, מרגע האיסוף</span></div><div class="tag">35 ₪ לשעה</div></div>
+      <div class="price"><div><b>🚶‍♀️ רק איסוף והחזרה הביתה</b><span>משימה קצרה, הורה מחכה בבית</span></div><div class="tag">45 ₪ לאיסוף</div></div>
+      <div class="price"><div><b>📚 עזרה בשיעורי בית</b><span>לפי שעה</span></div><div class="tag">&#x2066;35–40&#x2069; ₪ לשעה</div></div>
+      <div class="price"><div><b>💛 מנוי שבועי קבוע</b><span>אותו יום ושעה בכל שבוע</span></div><div class="tag">4 איסופים: 160 ₪</div></div>
+      <div class="note">למה "רק איסוף" עולה יותר משעה רגילה? כי את נוסעת במיוחד בשביל משימה קצרה. כשזה ממשיך לשמירה — זה פשוט לפי שעה.</div>
+      <h3>מתי 30 ומתי 35? מתי 35 ומתי 40?</h3>
+      <ul>
+        <li><b>המחיר הנמוך</b> — ילד אחד, שעות רגילות, משפחה קבועה.</li>
+        <li><b>המחיר הגבוה</b> — שניים־שלושה ילדים, ערב מאוחר, או פעם ראשונה חד־פעמית.</li>
+      </ul>
+    </section>
+
+    <section id="calc">
+      <h2>🧮 כמה יוצא? דוגמאות</h2>
+      <table>
+        <tr><th>מה עשיתי</th><th>כמה מקבלים</th></tr>
+        <tr><td>בייביסיטר שעתיים, ילד אחד</td><td>60 ₪</td></tr>
+        <tr><td>בייביסיטר 3 שעות, שני ילדים</td><td>105 ₪</td></tr>
+        <tr><td>הוצאה מהגן ב־16:30 + שמירה עד 18:30</td><td>70 ₪</td></tr>
+        <tr><td>רק איסוף מהגן והחזרה הביתה</td><td>45 ₪</td></tr>
+        <tr><td>שיעורי בית שעה וחצי</td><td>&#x2066;52–60&#x2069; ₪</td></tr>
+        <tr><td>מנוי: איסוף פעם בשבוע, חודש שלם</td><td>160 ₪</td></tr>
+      </table>
+      <div class="note">חצי שעה = חצי מחיר. התחלתי שעה? מעגלים לרבע השעה הקרוב. סוגרים את זה מראש עם ההורים, ואז אין אי־נעימות.</div>
+    </section>
+
+    <section id="flow">
+      <h2>📩 הגיעה בקשה בוואטסאפ — מה עושים?</h2>
+      <ol>
+        <li><b>קוראת הכול בנחת.</b> ההודעה מסודרת: מי ההורה, איזה שירות, מתי, כמה ילדים, איפה.</li>
+        <li><b>בודקת ביומן שלי:</b> מבחן למחרת? פעילות? מספיק זמן להגיע באוטובוס?</li>
+        <li><b>משפחה חדשה?</b> מספרת קודם לאבא או לאמא — ורק אז מאשרת.</li>
+        <li><b>עונה תוך כמה שעות</b> עם אחת התשובות המוכנות למטה.</li>
+        <li><b>אישרתי?</b> רושמת מיד את התאריך והשעות בטבלה, כדי שהאתר יציג "כבר תפוס 💛".</li>
+      </ol>
+      <a class="big-link" href="https://docs.google.com/spreadsheets/d/1QufmnPgLJhFm-_cysG389sE2Devc_3qyDfXp4bENlA4/edit" target="_blank" rel="noopener">📋 לפתוח את טבלת המועדים התפוסים</a>
+      <a class="big-link alt" href="./">🌼 לראות את האתר כמו שההורים רואים</a>
+      <div class="warm">בטבלה כותבים רק תאריך ושעות — בלי שמות משפחה ובלי כתובות. האתר קורא אותה.</div>
+    </section>
+
+    <section id="answers">
+      <h2>💬 תשובות מוכנות — להעתיק ולשלוח</h2>
+
+      <div class="tpl"><div class="when">✅ מתאים לי — מאשרת</div><div class="txt">שלום! תודה רבה שפניתם אליי 😊
+אני מאשרת: [יום ותאריך], בשעות [שעות].
+המחיר: [מחיר] ₪ לשעה.
+אשמח לדעת אם יש משהו חשוב שכדאי שאדע על הילדים (אלרגיות, הרגלים).
+נתראה, מעין 💛</div><button onclick="copyTpl(this)">העתקה</button></div>
+
+      <div class="tpl"><div class="when">❓ חסר לי פרט</div><div class="txt">שלום! תודה על הפנייה 😊
+כדי שאוכל לאשר, אשמח לדעת: [מה חסר — למשל: באיזו שעה מסתיים הגן? / מה הכתובת?]
+תודה! מעין</div><button onclick="copyTpl(this)">העתקה</button></div>
+
+      <div class="tpl"><div class="when">🔄 לא יכולה בשעה הזאת — מציעה אחרת</div><div class="txt">שלום! תודה רבה על הפנייה 😊
+ביום הזה אני יכולה להגיע לגילה רק מ־[שעה] (אני חוזרת מבית הספר באוטובוס).
+יתאים לכם [שעה אחרת / יום אחר]?
+מעין 💛</div><button onclick="copyTpl(this)">העתקה</button></div>
+
+      <div class="tpl"><div class="when">💛 כבר תפוס / לא מסתדר</div><div class="txt">שלום! תודה רבה שחשבתם עליי 😊
+לצערי בתאריך הזה אני כבר תפוסה. אשמח מאוד לעזור בפעם אחרת — אפשר לראות באתר את הימים הפנויים שלי.
+מעין 💛</div><button onclick="copyTpl(this)">העתקה</button></div>
+
+      <div class="tpl"><div class="when">👶 יותר מ־3 ילדים</div><div class="txt">שלום! תודה על הפנייה 😊
+כדי לשמור היטב על כל ילד, אני שומרת על עד 3 ילדים בו־זמנית. אם אחד ההורים נשאר בבית, או שאפשר לחלק — אשמח לחשוב יחד על פתרון.
+מעין 💛</div><button onclick="copyTpl(this)">העתקה</button></div>
+
+      <div class="tpl"><div class="when">💰 שואלים "כמה זה עולה?"</div><div class="txt">בשמחה 😊
+בייביסיטר: 30–35 ₪ לשעה.
+הוצאה מהגן + שמירה: 35 ₪ לשעה מרגע האיסוף.
+רק איסוף והחזרה הביתה: 45 ₪.
+ולמי שרוצה יום קבוע בכל שבוע — יש מנוי במחיר מוזל.</div><button onclick="copyTpl(this)">העתקה</button></div>
+
+      <div class="tpl"><div class="when">🤝 מבקשים הנחה</div><div class="txt">אני מבינה 😊 המחירים שלי כבר נוחים, ואני נותנת את כל הלב.
+אם תרצו יום קבוע בכל שבוע — יש לי מנוי במחיר מוזל, ואשמח לסגור אותו איתכם.</div><button onclick="copyTpl(this)">העתקה</button></div>
+
+      <div class="tpl"><div class="when">🧹 מבקשים עבודות בית כשאני לבד עם הילדים</div><div class="txt">כשאני לבד עם הילדים אני 100% איתם — זה הכי בטוח בשבילם 😊
+אני מגישה ארוחה שהכנתם מראש ומסדרת את הצעצועים ששיחקנו בהם. אם אחד ההורים בבית — אשמח לעזור גם בדברים קטנים נוספים.</div><button onclick="copyTpl(this)">העתקה</button></div>
+    </section>
+
+    <section id="rules">
+      <h2>🛡️ הכללים שלי — לא מתפשרת עליהם</h2>
+      <div class="rule">אבא או אמא תמיד יודעים: אצל מי אני, מה הכתובת, ומתי אני מסיימת.</div>
+      <div class="rule">משפחה חדשה — מאשרת רק אחרי שסיפרתי בבית.</div>
+      <div class="rule">עד 3 ילדים. יותר מזה — רק אם הורה נמצא בבית.</div>
+      <div class="rule">הטלפון טעון, ויש לי מספר של ההורים של הילדים למקרה חירום.</div>
+      <div class="rule">בערב — סוגרים מראש איך אני חוזרת הביתה.</div>
+      <div class="rule">משהו לא נעים או לא ברור? מתקשרת מיד לאבא או לאמא. תמיד מותר.</div>
+      <h3>ביטולים</h3>
+      <p>הורים יכולים לבטל או להזיז עד <b>8:00 בבוקר</b> של אותו יום — בלי בעיה. גם את: אם משהו משתנה אצלך, מודיעים כמה שיותר מוקדם.</p>
+      <h3>תשלום</h3>
+      <p>בסוף כל פעם (במנוי — בתחילת החודש). אומרים בפשטות ובחיוך: <b>"זה יוצא ___ ₪, תודה רבה!"</b> — זה לגמרי בסדר לומר את הסכום בקול.</p>
+    </section>
+
+    <section id="first">
+      <h2>🌟 פעם ראשונה אצל משפחה</h2>
+      <ul>
+        <li>מגיעה 5 דקות לפני הזמן, עם חיוך.</li>
+        <li>מציגה את עצמי להורים ולילדים: "היי, אני מעין, נעים מאוד!"</li>
+        <li>שואלת: יש אלרגיות? מה אוכלים? מתי הולכים לישון? מה אסור? מה מרגיע אותם?</li>
+        <li>מבקשת מספר טלפון של שני ההורים.</li>
+        <li>בזמן השמירה — הטלפון בכיס. העיניים על הילדים.</li>
+        <li>בסוף — מספרת להורים בקצרה איך היה. זה מה שגורם להם להזמין שוב 💛</li>
+      </ul>
+      <div class="note">את אחראית, חמה ואוהבת ילדים — בגלל זה הם פנו דווקא אלייך. בהצלחה, מעין! 🌼</div>
+    </section>
+  </div>
+
+  <script>
+    function copyTpl(btn) {
+      const text = btn.parentElement.querySelector(".txt").textContent;
+      const done = () => { btn.textContent = "הועתק ✓"; btn.classList.add("done"); setTimeout(() => { btn.textContent = "העתקה"; btn.classList.remove("done"); }, 1800); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(() => fallback(text, done));
+      } else fallback(text, done);
+    }
+    function fallback(text, done) {
+      const ta = document.createElement("textarea");
+      ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); done(); } catch (e) {}
+      ta.remove();
+    }
+  </script>
+</body>
+</html>
